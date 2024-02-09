@@ -15,6 +15,7 @@ class MainView: UIViewController {
     
     let viewModel = TiempoViewModel()
     var estadoLabelCancellable: AnyCancellable?
+    var iconoImageCancellable: AnyCancellable?
     
     @IBAction func botonPulsado(_ sender: Any) {
         viewModel.consultarTiempoActual(localidad: campoTexto.text ?? "")
@@ -24,6 +25,9 @@ class MainView: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         estadoLabelCancellable = viewModel.$estado.assign(to: \.text!, on: estadoLabel)
+        iconoImageCancellable = viewModel.$icono.sink { [weak self] image in
+            self?.estadoImage.image = image
+        }
     }
 }
 
